@@ -135,7 +135,7 @@ export default {
 
       return num;
     },
-    async getImagesShip(idShip) {
+    getImagesShip(idShip) {
       this.load = true;
 
       const noPhoto = './img/nophoto.jpg';
@@ -150,16 +150,24 @@ export default {
       axios.get(url)
         .then(response => {
           if (response.request.status != 200) throw new Error('Статус не 200');
-
-          this.imageShip = response.config.url;
-          this.load = false;
+          
+          this.setImage(response.config.url);
         })
         .catch(() => {
-          this.imageShip = noPhoto;
-          this.load = false;
+          this.setImage(noPhoto);
 
           console.error('Не удалось загрузить изображение корабля');
         });
+    },
+    setImage(url) {
+      let image = new Image();
+
+      image.onload = () => {
+        this.imageShip = image.src;
+        this.load = false;
+      }
+
+      image.src = url;
     }
   }
 }

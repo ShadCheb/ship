@@ -2,7 +2,7 @@
   <div class="list">
     <ship
       v-for="(ship, index) in data"
-      :key="index"
+      :key="index + page * 100"
       :data-ship="ship"
       :showShip="activeShip"
       @emitShowDescription="setActiveShip"
